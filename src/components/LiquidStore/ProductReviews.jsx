@@ -1,13 +1,13 @@
 const ALL_REVIEWS = [
-  { id: 1, profile: 'expert',    author: 'Marc D.',   rating: 5, text: 'La pré-infusion programmable est un game-changer. Extraction parfaitement homogène sur mes Geisha 90°C. Le PID tient la température à la virgule.' },
-  { id: 2, profile: 'expert',    author: 'Laure T.',  rating: 5, text: 'Double chaudière vraiment indépendantes, aucun délai entre espresso et vapeur. Pour ce prix, aucun concurrent ne tient.' },
-  { id: 3, profile: 'lifestyle', author: 'Sophie M.', rating: 5, text: 'Le coloris cuivre est absolument magnifique dans ma cuisine. Et elle est si silencieuse — je peux faire mon espresso sans réveiller personne.' },
-  { id: 4, profile: 'lifestyle', author: 'Antoine K.',rating: 4, text: 'Objet du désir absolu. Mes invités la remarquent avant le café. Le résultat dans la tasse est à la hauteur du design.' },
-  { id: 5, profile: 'general',   author: 'Isabelle R.',rating: 5, text: 'Première vraie machine après dix ans de capsules. Le saut de qualité est immense. Je ne pensais pas qu\'un espresso maison pouvait être à ce niveau.' },
+  { id: 1, profile: 'expert',    author: 'Mark D.',   rating: 5, text: 'The programmable pre-infusion is a true game-changer. Unbelievably consistent extraction on my light-roast Geishas at 93°C. The digital PID holds thermal stability to the tenth of a degree.' },
+  { id: 2, profile: 'expert',    author: 'Laura T.',  rating: 5, text: 'Genuinely decoupled dual boilers—zero recovery lag between pulling a shot and steaming silky micro-foam. Nothing in this price bracket even competes.' },
+  { id: 3, profile: 'lifestyle', author: 'Sophie M.', rating: 5, text: 'The brushed copper finish looks stunning on our white marble kitchen island. And it is so quiet—I can pull my morning espresso at 6 AM without waking anyone up.' },
+  { id: 4, profile: 'lifestyle', author: 'Anthony K.', rating: 4, text: 'An absolute centerpiece of industrial design. Guests notice the machine before anything else. The coffee quality matches the visual elegance.' },
+  { id: 5, profile: 'general',   author: 'Isabelle R.', rating: 5, text: 'My first serious machine after a decade of pod coffee. The quality leap is massive. I had no idea home espresso could taste this vibrant.' },
 ]
 
 export default function ProductReviews({ intent }) {
-  // Filtre les avis selon le profil, fallback sur 'general'
+  // Filter reviews by profile, fallback to 'general'
   const reviews = ALL_REVIEWS.filter(r => r.profile === intent || r.profile === 'general')
 
   return (
@@ -15,15 +15,15 @@ export default function ProductReviews({ intent }) {
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-6 pb-2 gap-2">
         <div>
           <span className="text-xs font-mono font-semibold tracking-wider uppercase text-zinc-400 block">
-            Retours d'expérience vérifiés
+            Verified Customer Feedback
           </span>
           <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight mt-0.5">
-            Ce que disent les propriétaires de Lumina
+            What Lumina Owners Say
           </h2>
         </div>
         {intent !== 'general' && (
           <span className="text-xs font-mono text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full w-fit">
-            ✨ Filtrés sur l'angle {intent === 'expert' ? 'Technique & Extraction' : 'Design & Confort'}
+            ✨ Filtered for {intent === 'expert' ? 'Technical & Extraction' : 'Design & Aesthetics'}
           </span>
         )}
       </div>
@@ -44,7 +44,7 @@ export default function ProductReviews({ intent }) {
                 </span>
                 <span className="font-semibold text-xs text-zinc-900">{review.author}</span>
               </div>
-              <div className="flex text-zinc-900 text-xs tracking-widest" aria-label={`${review.rating} étoiles sur 5`}>
+              <div className="flex text-zinc-900 text-xs tracking-widest" aria-label={`${review.rating} out of 5 stars`}>
                 {'★'.repeat(review.rating)}
               </div>
             </footer>

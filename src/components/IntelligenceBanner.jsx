@@ -7,24 +7,24 @@ const TIER_DETAILS = {
     tag: 'WebGPU Local · Zero Cloud',
     engine: 'SmolLM2 / Phi-3.5 via WebLLM',
     latency: '~400ms (on-device GPU)',
-    privacy: '100% local (RGPD natif)',
-    desc: 'L\'IA s\'exécute directement sur votre carte graphique via WebGPU. Aucune requête réseau, aucune clé API requise, données privées intactes.',
+    privacy: '100% local (Native GDPR)',
+    desc: 'AI executes on-device via WebGPU. Zero network calls, zero API keys required, private data stays local.',
   },
   HYBRID: {
     bg: 'bg-indigo-50/80 border-indigo-200 text-indigo-900',
     tag: 'Edge Local + Cloud Gateway',
     engine: 'WebLLM (local) + Claude 3.5 Sonnet (OpenRouter)',
     latency: '~250ms',
-    privacy: 'Hybride (données anonymisées)',
-    desc: 'Partitionnement intelligent : les données sensibles restent dans le navigateur, tandis que le cloud gère le raisonnement multi-sessions.',
+    privacy: 'Hybrid (Anonymized data)',
+    desc: 'Intelligent partitioning: sensitive fields remain in the client, while cloud handles multi-session reasoning.',
   },
   VISION: {
     bg: 'bg-purple-50/80 border-purple-200 text-purple-900',
     tag: 'Machine-Native · System One',
     engine: 'Jev / System One Models (TypeSafe AI)',
-    latency: '~100ms (prédictif)',
+    latency: '~100ms (predictive)',
     privacy: 'Agent-Ready / WebMCP',
-    desc: 'L\'interface ne réagit plus seulement après coup : elle anticipe vos intentions de navigation avant même le clic.',
+    desc: 'The interface no longer reacts after the fact: it anticipates user intent before the click happens.',
   },
 }
 
@@ -34,7 +34,7 @@ export default function IntelligenceBanner() {
   const { status, progress, progressText, loadEngine } = useWebLLMEngine()
 
   return (
-    <aside aria-label="Informations sur l'architecture IA active" className={`border-b transition-colors duration-300 ${detail.bg}`}>
+    <aside aria-label="Active AI Architecture Details" className={`border-b transition-colors duration-300 ${detail.bg}`}>
       <div className="mx-auto max-w-5xl px-6 py-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
         <div className="flex items-center gap-2">
           <span className="font-bold tracking-wide uppercase px-2 py-0.5 rounded-full bg-white/80 shadow-xs border border-current/20">
@@ -50,12 +50,12 @@ export default function IntelligenceBanner() {
               {status === 'ready' && (
                 <span className="inline-flex items-center gap-1.5 font-bold text-emerald-800 bg-white/90 px-2.5 py-0.5 rounded-full border border-emerald-300 shadow-xs">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                  WebGPU Actif
+                  WebGPU Active
                 </span>
               )}
               {(status === 'downloading' || status === 'checking') && (
                 <span className="inline-flex items-center gap-1.5 font-bold text-amber-900 bg-white/90 px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse shadow-xs">
-                  ⏳ {Math.round(progress * 100)}% ({progressText || 'Chargement...'})
+                  ⏳ {Math.round(progress * 100)}% ({progressText || 'Loading...'})
                 </span>
               )}
               {status === 'idle' && (
@@ -64,7 +64,7 @@ export default function IntelligenceBanner() {
                   onClick={() => loadEngine()}
                   className="rounded-full bg-zinc-900 hover:bg-zinc-800 text-white px-2.5 py-0.5 font-sans font-medium transition-all shadow-xs cursor-pointer"
                 >
-                  🚀 Charger WebLLM (SmolLM2)
+                  🚀 Load WebLLM (SmolLM2)
                 </button>
               )}
             </>

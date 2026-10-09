@@ -127,17 +127,17 @@ export function useWebLLMEngine(initialModelId) {
     }
 
     const start = performance.now()
-    const prompt = `Tu es un arbitre d'intention UX pour une boutique e-commerce de machines à café haut de gamme.
-Voici les scores comportementaux observés :
-- Specs techniques & bars de pression (Expert) : ${scores.expert.toFixed(2)}
-- Design, finitions & silence acoustique (Lifestyle) : ${scores.lifestyle.toFixed(2)}
+    const prompt = `You are a UX intent arbiter for a luxury espresso machine e-commerce store.
+Here are the observed behavioral telemetry scores:
+- Technical specs & extraction pressure (Expert): ${scores.expert.toFixed(2)}
+- Design, finishes & acoustic silence (Lifestyle): ${scores.lifestyle.toFixed(2)}
 
-L'utilisateur a exploré la page. Tu dois trancher en faveur de sa tendance dominante.
-Réponds STRICTEMENT par l'un de ces deux mots en minuscules : "expert" ou "lifestyle".`
+The visitor explored the page. Determine their dominant intent.
+Respond STRICTLY with one of these two lowercase words: "expert" or "lifestyle".`
 
     const response = await engineInstance.chat.completions.create({
       messages: [
-        { role: 'system', content: 'Tu es un classificateur binaire strict. Tu réponds uniquement par "expert" ou "lifestyle".' },
+        { role: 'system', content: 'You are a strict binary classifier. You only answer with "expert" or "lifestyle".' },
         { role: 'user', content: prompt },
       ],
       temperature: 0.1,
@@ -159,33 +159,33 @@ Réponds STRICTEMENT par l'un de ces deux mots en minuscules : "expert" ou "life
    */
   const extractShippingData = useCallback(async (rawText) => {
     if (!engineInstance || engineState.status !== 'ready') {
-      throw new Error('Moteur WebLLM non initialisé ou non prêt')
+      throw new Error('WebLLM engine not initialized or not ready')
     }
 
     const start = performance.now()
-    const prompt = `Analyse ce texte brut (signature email, facture, contact) et extrait les champs de livraison sous forme de JSON strict.
+    const prompt = `Analyze this raw text (email signature, invoice, contact details) and extract the delivery fields as strict JSON.
 
-Champs attendus :
-- "prenom": string
-- "nom": string
-- "entreprise": string (vide si absent)
-- "adresse_ligne1": string (numéro et rue)
-- "adresse_ligne2": string (complément: bâtiment, bureau, étage, ou vide)
-- "code_postal": string
-- "ville": string
-- "pays": string (ex: "Canada" ou "France")
+Expected schema keys:
+- "prenom": string (first name)
+- "nom": string (last name)
+- "entreprise": string (company name, empty string if not present)
+- "adresse_ligne1": string (street address and number)
+- "adresse_ligne2": string (suite, building, apartment, floor, or empty string)
+- "code_postal": string (postal / zip code)
+- "ville": string (city)
+- "pays": string (country, e.g. "Canada", "United States", "France")
 - "_confidence": {"adresse_ligne1": "high"|"medium"|"low", "code_postal": "high"|"medium"|"low"}
 
-Texte à analyser :
+Raw text to analyze:
 """
 ${rawText}
 """
 
-Réponds STRICTEMENT avec l'objet JSON valide, sans texte d'introduction ni balises Markdown.`
+Respond STRICTLY with a valid JSON object matching this schema. No preamble, no explanation, no conversational filler.`
 
     const response = await engineInstance.chat.completions.create({
       messages: [
-        { role: 'system', content: 'Tu es un extracteur JSON strict. Aucun bavardage, que du JSON valide.' },
+        { role: 'system', content: 'You are a strict JSON extractor. Output valid JSON only, no markdown or chat.' },
         { role: 'user', content: prompt },
       ],
       temperature: 0.1,

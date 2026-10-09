@@ -20,12 +20,12 @@ export default function ExplicitAssentNudge({
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-zinc-500">
-                Assentiment explicite · IA Invisible
+                Explicit Assent · Invisible UI
               </span>
               <button
                 onClick={onDismiss}
                 className="text-zinc-400 hover:text-zinc-600 text-sm font-mono cursor-pointer"
-                title="Ignorer"
+                title="Dismiss"
               >
                 ✕
               </button>
@@ -33,14 +33,14 @@ export default function ExplicitAssentNudge({
 
             <h4 className="text-sm font-bold text-zinc-950 mt-0.5">
               {isExpert
-                ? 'Voulez-vous charger la vue Expert (specs & atelier) ?'
-                : 'Voulez-vous découvrir l\'édition Lifestyle (finitions & design) ?'}
+                ? 'Would you like to load the Workshop View (specs & engineering)?'
+                : 'Would you like to explore the Lifestyle Edition (finishes & aesthetics)?'}
             </h4>
 
             <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
               {isExpert
-                ? 'Votre lecture cible les composants d\'extraction et les bars de pression. L\'écran reste intact jusqu\'à votre validation.'
-                : 'Votre lecture cible les finitions, photos et le confort sonore. L\'écran reste intact jusqu\'à votre validation.'}
+                ? 'Your browsing focused on extraction components and pressure curves. The layout remains untouched until confirmed.'
+                : 'Your browsing focused on finishes, photography, and acoustic silence. The layout remains untouched until confirmed.'}
             </p>
 
             <div className="mt-3.5 flex items-center gap-2.5">
@@ -52,14 +52,14 @@ export default function ExplicitAssentNudge({
                     : 'bg-amber-700 hover:bg-amber-800'
                 }`}
               >
-                {isExpert ? 'Oui, basculer en vue atelier ⚙️' : 'Oui, afficher l\'édition Cuivre ✨'}
+                {isExpert ? 'Yes, switch to Workshop View ⚙️' : 'Yes, show Copper Edition ✨'}
               </button>
 
               <button
                 onClick={onDismiss}
                 className="rounded-xl px-3 py-2 text-xs font-medium text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-colors cursor-pointer"
               >
-                Garder la vue standard
+                Keep standard view
               </button>
             </div>
           </div>

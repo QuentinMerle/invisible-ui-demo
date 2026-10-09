@@ -26,12 +26,12 @@ export default function IntentDebugPanel({
   const [isCollapsed, setIsCollapsed] = useState(false)
   const percentElapsed = Math.min(100, (elapsedSeconds / totalWindowSeconds) * 100)
 
-  // Calcul du ratio pour la jauge bicolore
+  // Ratio calculation for dual-color gauge
   const totalScore = (scores.expert || 0) + (scores.lifestyle || 0)
   const expertPct = totalScore > 0 ? Math.round(((scores.expert || 0) / totalScore) * 100) : 50
   const lifestylePct = 100 - expertPct
 
-  // État minimisé très discret
+  // Discretely minimized badge
   if (isCollapsed) {
     return (
       <button
@@ -39,16 +39,16 @@ export default function IntentDebugPanel({
         className="fixed bottom-4 right-4 z-50 rounded-full border border-zinc-200/90 bg-white/95 backdrop-blur-md px-3.5 py-1.5 text-xs shadow-xl font-mono flex items-center gap-2 hover:bg-zinc-50 transition-all cursor-pointer text-zinc-700"
       >
         <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-        <span className="font-semibold">Intent : {intent.toUpperCase()}</span>
+        <span className="font-semibold">Intent: {intent.toUpperCase()}</span>
         <span className="text-[11px] text-zinc-400">· {elapsedSeconds > 0 && !isLocked ? `${elapsedSeconds.toFixed(1)}s` : isLocked ? '🔒' : '⏸️'}</span>
-        <span className="text-[11px] text-zinc-400 underline">Déplier ↗</span>
+        <span className="text-[11px] text-zinc-400 underline">Expand ↗</span>
       </button>
     )
   }
 
   return (
     <div className="fixed bottom-4 right-4 z-50 rounded-2xl border border-zinc-200/90 bg-white/95 backdrop-blur-md p-4 text-xs shadow-2xl font-mono flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)]">
-      {/* 1. En-tête épuré */}
+      {/* 1. Clean header */}
       <div className="flex items-center justify-between border-b border-zinc-100 pb-2">
         <div className="flex items-center gap-2">
           <span className={`h-2 w-2 rounded-full ${
@@ -63,12 +63,12 @@ export default function IntentDebugPanel({
           <span className="font-bold text-zinc-900">Intent Engine</span>
           <span className="text-[10px] text-zinc-400 font-sans">
             {engineStatus === 'checking' || engineStatus === 'downloading'
-              ? '⏳ Pause (téléchargement)'
+              ? '⏳ Paused (downloading)'
               : isLocked
-              ? '🔒 Stabilisé'
+              ? '🔒 Stabilized'
               : elapsedSeconds > 0
               ? `${elapsedSeconds.toFixed(1)}s / ${totalWindowSeconds}s`
-              : 'En attente de scroll'}
+              : 'Awaiting scroll'}
           </span>
         </div>
 
@@ -85,14 +85,14 @@ export default function IntentDebugPanel({
           <button
             onClick={() => setIsCollapsed(true)}
             className="text-zinc-400 hover:text-zinc-700 p-0.5 text-xs cursor-pointer ml-1"
-            title="Minimiser le panneau"
+            title="Minimize panel"
           >
             ✕
           </button>
         </div>
       </div>
 
-      {/* Barre de chronomètre (fine) */}
+      {/* Progress timer bar */}
       <div className="h-1 w-full bg-zinc-100 rounded-full overflow-hidden -mt-1">
         <div
           className={`h-full transition-all duration-300 ${
@@ -102,7 +102,7 @@ export default function IntentDebugPanel({
         />
       </div>
 
-      {/* 2. Jauge d'attention unifiée (Bipolaire Specs vs Design) */}
+      {/* 2. Unified attention gauge (Bipolar Specs vs Design) */}
       <div className="flex flex-col gap-1.5 bg-zinc-50/80 p-2.5 rounded-xl border border-zinc-100">
         <div className="flex justify-between items-center text-[11px]">
           <span className={`font-semibold ${scores.expert >= scores.lifestyle ? 'text-emerald-700 font-bold' : 'text-zinc-500'}`}>
@@ -113,7 +113,7 @@ export default function IntentDebugPanel({
           </span>
         </div>
 
-        {/* Jauge bicolore élégante */}
+        {/* Dual-color gauge */}
         <div className="h-2 w-full bg-zinc-200 rounded-full overflow-hidden flex">
           <div
             className="h-full bg-emerald-500 transition-all duration-300"
@@ -126,18 +126,18 @@ export default function IntentDebugPanel({
         </div>
 
         <div className="text-[10px] text-zinc-400 text-center truncate pt-0.5 font-sans">
-          {hoveredProfile === 'expert' && '🎯 Curseur sur : Spécifications techniques (x3.5)'}
-          {hoveredProfile === 'lifestyle' && '🎯 Curseur sur : Photos & Finitions (x3.5)'}
-          {!hoveredProfile && (activeProfileInView ? `👁️ Dans l'écran : ${activeProfileInView === 'expert' ? 'Specs' : 'Photos'}` : 'Survolez ou scrollez pour orienter l\'IA')}
+          {hoveredProfile === 'expert' && '🎯 Cursor on: Technical Specs (3.5x)'}
+          {hoveredProfile === 'lifestyle' && '🎯 Cursor on: Photos & Finishes (3.5x)'}
+          {!hoveredProfile && (activeProfileInView ? `👁️ In viewport: ${activeProfileInView === 'expert' ? 'Specs' : 'Photos'}` : 'Hover or scroll to steer the AI')}
         </div>
       </div>
 
-      {/* 3. Assentiment Explicite Switch */}
+      {/* 3. Explicit Assent Switch */}
       <div className="flex items-center justify-between py-0.5">
         <div className="flex flex-col">
-          <span className="text-[11px] font-semibold text-zinc-800 font-sans">Assentiment explicite</span>
+          <span className="text-[11px] font-semibold text-zinc-800 font-sans">Explicit Assent</span>
           <span className="text-[10px] text-zinc-400 font-sans">
-            {requireAssent ? 'Proposer le choix (Nudge)' : 'Morphing direct (Brutal)'}
+            {requireAssent ? 'Suggest choice (Nudge)' : 'Direct morphing (Abrupt)'}
           </span>
         </div>
         <button
@@ -155,16 +155,16 @@ export default function IntentDebugPanel({
         </button>
       </div>
 
-      {/* 4. Statut WebLLM compact */}
+      {/* 4. Compact WebLLM status */}
       <div className="flex items-center justify-between text-[11px] border-t border-zinc-100 pt-2 font-sans">
         <div className="flex items-center gap-1.5 truncate">
           <span className="text-xs">🧠</span>
           <span className="text-zinc-600 truncate text-[11px]">
             {engineStatus === 'ready'
-              ? (arbitrationLatency ? `Inférence : ${arbitrationLatency}ms` : 'WebGPU Prêt (SmolLM2)')
+              ? (arbitrationLatency ? `Inference: ${arbitrationLatency}ms` : 'WebGPU Ready (SmolLM2)')
               : (engineStatus === 'downloading' || engineStatus === 'checking')
-              ? `${Math.round(engineProgress * 100)}% (${engineProgressText || 'Téléch.'})`
-              : 'WebLLM non chargé'}
+              ? `${Math.round(engineProgress * 100)}% (${engineProgressText || 'Downloading'})`
+              : 'WebLLM not loaded'}
           </span>
         </div>
 
@@ -174,7 +174,7 @@ export default function IntentDebugPanel({
             onClick={() => onLoadEngine()}
             className="rounded-lg bg-zinc-900 text-white px-2.5 py-1 text-[10px] font-semibold hover:bg-zinc-800 transition-colors cursor-pointer shrink-0"
           >
-            Charger
+            Load
           </button>
         )}
 
@@ -185,28 +185,28 @@ export default function IntentDebugPanel({
             onClick={() => onTriggerWebLLM()}
             className="rounded-lg bg-emerald-600 text-white px-2.5 py-1 text-[10px] font-semibold hover:bg-emerald-700 disabled:opacity-50 transition-colors cursor-pointer shrink-0"
           >
-            {isArbitrating ? '...' : 'Arbitrer'}
+            {isArbitrating ? '...' : 'Arbitrate'}
           </button>
         )}
       </div>
 
-      {/* 5. Déclencheurs de test UX (Le "Voulez-vous charger...") */}
+      {/* 5. UX Testing triggers */}
       <div className="border-t border-zinc-100 pt-2 flex flex-col gap-1.5 font-sans">
-        <div className="text-[10px] text-zinc-400 font-medium">Tester la proposition (Nudge) :</div>
+        <div className="text-[10px] text-zinc-400 font-medium">Test suggestion (Nudge):</div>
         <div className="grid grid-cols-2 gap-1.5">
           <button
             type="button"
             onClick={() => onSimulateProfile ? onSimulateProfile('expert') : onForceIntent('expert')}
             className="rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 px-2 py-1.5 text-[10px] font-bold transition-colors cursor-pointer text-center truncate"
           >
-            ⚙️ Vue Atelier
+            ⚙️ Workshop View
           </button>
           <button
             type="button"
             onClick={() => onSimulateProfile ? onSimulateProfile('lifestyle') : onForceIntent('lifestyle')}
             className="rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 px-2 py-1.5 text-[10px] font-bold transition-colors cursor-pointer text-center truncate"
           >
-            ✨ Vue Cuivre
+            ✨ Copper View
           </button>
         </div>
 
@@ -215,7 +215,7 @@ export default function IntentDebugPanel({
           onClick={onReset}
           className="rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 px-2 py-1 text-[10px] font-medium transition-colors cursor-pointer text-center w-full mt-0.5"
         >
-          🔄 Réinitialiser l'analyse (6s)
+          🔄 Reset analysis (6s)
         </button>
       </div>
     </div>

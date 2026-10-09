@@ -139,24 +139,24 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <h1 className="mb-2 text-2xl font-bold">Finaliser la commande</h1>
+      <h1 className="mb-2 text-2xl font-bold">Checkout & Shipping</h1>
       <p className="mb-6 text-sm text-gray-500">
-        Mode actif : <strong>{tier.label}</strong> — {tier.description}
+        Active mode: <strong>{tier.label}</strong> — {tier.description}
       </p>
 
-      {/* Carte d'état WebLLM dans la page Checkout */}
+      {/* WebLLM status card on Checkout page */}
       {tier.id === 'LOCAL' && !formData && (
         <div className="mb-6 rounded-2xl border border-zinc-200/90 bg-white/90 p-4 shadow-xs">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs">
               <span className="text-base">🧠</span>
               <div>
-                <span className="font-semibold text-zinc-900 block font-mono">Moteur WebLLM local (WebGPU)</span>
+                <span className="font-semibold text-zinc-900 block font-mono">Local WebLLM Engine (WebGPU)</span>
                 <span className="text-zinc-500 text-[11px]">
-                  {engineStatus === 'ready' && 'Prêt · Vos données sont analysées directement sur votre GPU'}
-                  {engineStatus === 'idle' && 'Non chargé · Chargez le modèle pour une extraction 100% autonome par IA'}
-                  {(engineStatus === 'downloading' || engineStatus === 'checking') && (engineProgressText || 'Téléchargement en cours...')}
-                  {engineStatus === 'unsupported' && 'WebGPU indisponible sur ce navigateur (fallback heuristique actif)'}
+                  {engineStatus === 'ready' && 'Ready · Data analyzed directly on-device via GPU'}
+                  {engineStatus === 'idle' && 'Not loaded · Load model for 100% autonomous local AI extraction'}
+                  {(engineStatus === 'downloading' || engineStatus === 'checking') && (engineProgressText || 'Downloading model weights...')}
+                  {engineStatus === 'unsupported' && 'WebGPU unavailable on this browser (heuristic fallback active)'}
                 </span>
               </div>
             </div>
@@ -167,14 +167,14 @@ export default function CheckoutPage() {
                 onClick={() => loadEngine()}
                 className="shrink-0 rounded-xl bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 transition-all cursor-pointer shadow-xs"
               >
-                🚀 Charger WebLLM (SmolLM2)
+                🚀 Load WebLLM (SmolLM2)
               </button>
             )}
 
             {engineStatus === 'ready' && (
               <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-bold text-emerald-800 font-mono">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                WebGPU Actif
+                WebGPU Active
               </span>
             )}
           </div>

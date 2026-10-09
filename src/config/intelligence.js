@@ -6,21 +6,21 @@
 export const AVAILABLE_LOCAL_MODELS = [
   {
     id: 'SmolLM2-360M-Instruct-q4f16_1-MLC',
-    name: 'SmolLM2 360M (Recommandé)',
-    description: 'Poids ~190 Mo · Démarre en quelques secondes sur WebGPU',
-    vram: '376 Mo',
+    name: 'SmolLM2 360M (Recommended)',
+    description: 'Weight ~190 MB · Boots in seconds on WebGPU',
+    vram: '376 MB',
   },
   {
     id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
     name: 'Llama 3.2 1B',
-    description: 'Poids ~600 Mo · Excellent compromis vitesse/précision',
-    vram: '880 Mo',
+    description: 'Weight ~600 MB · Great speed/accuracy balance',
+    vram: '880 MB',
   },
   {
     id: 'Phi-3.5-mini-instruct-q4f16_1-MLC',
     name: 'Phi-3.5 Mini 3.8B',
-    description: 'Poids ~2.2 Go · Modèle de référence de l\'article',
-    vram: '2.5 Go',
+    description: 'Weight ~2.2 GB · Reference baseline model',
+    vram: '2.5 GB',
   },
 ]
 
@@ -30,8 +30,8 @@ export const INTELLIGENCE_TIERS = {
   LOCAL: {
     id: 'LOCAL',
     label: '🔒 Local',
-    description: 'WebLLM (WebGPU) — dans votre navigateur. Aucune donnée envoyée.',
-    // Modèles utilisés selon la tâche
+    description: 'WebLLM (WebGPU) — running in your browser. Zero data sent.',
+    // Models used by task
     intentModel: DEFAULT_LOCAL_MODEL,
     formModel: DEFAULT_LOCAL_MODEL,
     privacy: 'total',
@@ -39,8 +39,8 @@ export const INTELLIGENCE_TIERS = {
   },
   HYBRID: {
     id: 'HYBRID',
-    label: '⚡ Hybride',
-    description: 'Local pour les données sensibles. OpenRouter (Claude/Gemini) pour le contexte long.',
+    label: '⚡ Hybrid',
+    description: 'Local for sensitive fields. OpenRouter (Claude/Gemini) for long-context reasoning.',
     intentModel: 'Phi-3.5-mini-instruct-q4f16_1-MLC',
     formModel: 'anthropic/claude-3-5-haiku', // via OpenRouter
     privacy: 'partial',
@@ -49,7 +49,7 @@ export const INTELLIGENCE_TIERS = {
   VISION: {
     id: 'VISION',
     label: '✨ Vision',
-    description: 'Simulé. Illustre ce que permettrait un modèle machine-native (Jev / System One).',
+    description: 'Simulated. Illustrates machine-native UI capabilities (Jev / System One).',
     intentModel: null,
     formModel: null,
     privacy: 'simulated',
