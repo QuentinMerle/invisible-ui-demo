@@ -1,0 +1,35 @@
+# invisible-ui-demo
+
+> Proof of Concept by Quentin Merle (Vibrisse Studio Inc., Beauce, Québec) exploring client-side Small Language Models (SLMs) running locally via WebGPU to power Invisible, Polymorphic Interfaces without chatbots or cloud roundtrips.
+
+## Overview
+
+Modern web applications often shove AI into intrusive chatbot sidebars ("lazy design"). This project demonstrates the alternative: **Invisible UI**. Small, local models (360M to 1B parameters) observe user micro-behavior (cursor dwell time, reading pauses, text selections) and adapt the interface dynamically or assist form filling with 100% data privacy.
+
+## Quick Start
+
+```bash
+npm install
+npm run dev
+# Open http://localhost:5173/
+# Requires a WebGPU-enabled browser (Chrome 113+, Edge, Brave)
+```
+
+## Core Demos & Entry Points
+
+- [LiquidStore (Adaptive Product Page)](src/components/LiquidStore/LiquidStorePage.jsx): Polymorphic e-commerce product page. Adapts hero copy, image focus, review filters, and color accents based on implicit user intent (Technical Expert vs Lifestyle/Design enthusiast). Features an explicit assent nudge toast to prevent disorientation and layout shifts.
+- [Auto-Hydrating Checkout Form](src/components/CheckoutForm/CheckoutPage.jsx): Privacy-first checkout form that extracts structured shipping information from raw messy text (email signatures, corporate invoices) entirely on-device using WebGPU. Zero bytes leave the client.
+
+## Key Architecture & Source Files
+
+- `src/lib/useWebLLMEngine.js`: Shared module-level WebLLM singleton. Uses `@mlc-ai/web-llm` loaded via dynamic import to keep initial bundle size at ~200 kB. Provides on-device GPU inference for intent arbitration and structured JSON extraction. Default model: `SmolLM2-360M-Instruct-q4f16_1-MLC`.
+- `src/hooks/useImplicitIntent.js`: Headless interaction engine combining macro signals (`IntersectionObserver`, weight 0.35) and micro signals (`pointerover` cursor hover, weight 0.95; `selectionchange` text highlights, boost +1.2). Manages an observation countdown, auto-pauses during weight download, and locks in intent decisions.
+- `src/components/LiquidStore/ExplicitAssentNudge.jsx`: Non-intrusive floating toast asking the user's consent before switching layout profiles ("Sommelier" UX pattern).
+- `src/components/LiquidStore/IntentDebugPanel.jsx`: Real-time instrumentation dock with bipolar balance gauge (Specs vs Design), WebGPU status, and instant profile simulation triggers.
+- `src/config/intelligence.js`: Configuration for intelligence tiers (Local WebGPU, Hybrid Cloud Gateway, Vision / Machine-Native) and JSON extraction schemas.
+
+## Developer & Agent Guidelines
+
+- For complete instructions on extending this PoC, adding new WebLLM models, or wiring Chrome WebMCP (`navigator.modelContext`), see [AGENTS.md](AGENTS.md).
+- **FinOps Rule for Cloud / API Alternative:** If deploying via serverless Edge (Cloudflare/Vercel) instead of local WebGPU, never call frontier models (GPT-4o/Claude 3.5 Sonnet). Use micro-models (`gemini-2.0-flash-lite`, `gpt-4o-mini`, `llama-3.1-8b-instant` on Groq) with structured outputs to keep latency <100ms and costs at fractions of a cent.
+

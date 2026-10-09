@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-accent: #18181b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+
+body {
+  background-color: #fafafa;
+  color: #18181b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Transitions ciblées pour les mutations UI */
+.theme-accent {
+  transition: color 400ms ease, background-color 400ms ease, border-color 400ms ease;
+}
+
+/* Classe utilitaire pour les sections trackées par IntersectionObserver */
+[data-profile] {
+  scroll-margin-top: 5rem;
+}
