@@ -1,80 +1,83 @@
 # invisible-ui-demo
 
-> PoC associé à l'article **"Chatbots are lazy design : Ce que les SLMs locaux, WebLLM et WebMCP changent à l'interface web"** par [Quentin Merle](https://dev.to/quentin_merle) / [Vibrisse Studio](https://vibrisse-studio.dev) (Beauce, Québec).
+> Exploratory PoC accompanying the article **["Chatbots are lazy design: What In-Browser SLMs, WebLLM, and WebMCP Mean for the Modern Web Interface"](https://www.vibrisse-studio.dev/articles/chatbots-are-lazy-design)** by [Quentin Merle](https://github.com/QuentinMerle) / [Vibrisse Studio](https://www.vibrisse-studio.dev) (Beauce, Quebec).
 >
-> 🚀 **Démo en ligne :** [https://invisible-ui-demo.vercel.app](https://invisible-ui-demo.vercel.app)
+> 🚀 **Live Demo:** [https://invisible-ui-demo.vercel.app](https://invisible-ui-demo.vercel.app)
 
 ![Invisible UI Architecture Blueprint](public/cover.jpg)
 
-Un SLM qui tourne directement dans votre navigateur via **WebGPU** observe vos micro-comportements (dwell time, survol du curseur, surlignage de texte) et adapte l'interface sans chatbot, sans serveur, et dans le respect total de votre vie privée.
+An in-browser Small Language Model (SLM) executing on-device via **WebGPU** observes user micro-behavior (dwell time, cursor trajectories, text selections) and dynamically adapts the interface—without intrusive chatbots, without backend servers, and with absolute client-side data privacy.
 
 ---
 
-## Démos interactives
+## Interactive Demos
 
-| Route | Démo | Modèle par défaut | Pattern UX |
+| Route | Demo | Default Model | UX Pattern |
 |---|---|---|---|
-| `/` | **LiquidStore** — Page produit polymorphe | `SmolLM2-360M` via WebLLM | **Assentiment explicite** (Nudge toast poli, zéro saut d'écran involontaire) |
-| `/checkout` | **Auto-Hydrating Form** — Formulaire auto-rempli | `SmolLM2-360M` via WebLLM | **Extraction JSON stricte** avec indices de confiance colorés |
+| `/` | **LiquidStore** — Polymorphic Product Page | `SmolLM2-360M` via WebLLM | **Explicit Assent** (Polite toast suggestion, zero abrupt layout shift) |
+| `/checkout` | **Auto-Hydrating Form** — Self-Populating Form | `SmolLM2-360M` via WebLLM | **Strict JSON Extraction** with self-reported confidence indicators |
 
 ---
 
-## Démarrage rapide
+## Quick Start
 
 ```bash
-# 1. Cloner et installer les dépendances
+# 1. Clone the repository and install dependencies
 git clone https://github.com/QuentinMerle/invisible-ui-demo
 cd invisible-ui-demo
 npm install
 
-# 2. Lancer le serveur de développement Vite
+# 2. Start the Vite local development server
 npm run dev
 
-# 3. Ouvrir dans un navigateur compatible WebGPU (Chrome 113+, Edge, Brave)
+# 3. Open in a WebGPU-compatible browser (Chrome 113+, Edge, Brave, or Safari 18+)
 # http://localhost:5173/
 ```
 
-> **Note sur le premier chargement :** Le modèle par défaut (`SmolLM2-360M`, ~190 Mo de poids) est téléchargé et mis en cache dans IndexedDB. Les visites suivantes sont instantanées.
+> **Note on First Load:** The default model weights (`SmolLM2-360M`, ~190 MB) are downloaded once and cached locally inside IndexedDB / Cache API. Subsequent visits load instantaneously with zero network overhead.
 
 ---
 
-## Architecture & Code
+## Architecture & Codebase Overview
 
 ```
 invisible-ui-demo/
-├── llms.txt                     # Index standardisé pour LLMs et agents autonomes
-├── AGENTS.md                    # Guide technique approfondi pour développeurs et agents IA
+├── llms.txt                     # Standardized index for LLMs and autonomous agents
+├── AGENTS.md                    # In-depth architectural playbook for developers & AI agents
+├── vercel.json                  # SPA routing and COOP/COEP headers for WebGPU deployment
 ├── src/
 │   ├── config/
-│   │   ├── intelligence.js      # Tiers (LOCAL / HYBRID / VISION) & schémas JSON
-│   │   └── IntelligenceContext.jsx # Contexte React partagé
+│   │   ├── intelligence.js      # Tiers (LOCAL / HYBRID / VISION) & JSON schemas
+│   │   └── IntelligenceContext.jsx # Shared React intelligence context
 │   ├── lib/
-│   │   └── useWebLLMEngine.js   # Singleton WebLLM chargé à la demande (Dynamic Import)
+│   │   └── useWebLLMEngine.js   # Module-level WebLLM singleton loaded via dynamic import
 │   ├── hooks/
-│   │   └── useImplicitIntent.js # IntersectionObserver + Pointer + Ticker 400ms + Assentiment
+│   │   └── useImplicitIntent.js # Headless telemetry: IntersectionObserver + Pointer + Selection + Assent
 │   ├── components/
-│   │   ├── ModeSwitcher.jsx     # Toggle 🔒 Local / ⚡ Hybride / ✨ Vision
-│   │   ├── IntelligenceBanner.jsx # Bandeau dynamique d'architecture
-│   │   ├── LiquidStore/         # Démo 1 : Fiche produit polymorphe + Nudge + Panel
-│   │   └── CheckoutForm/        # Démo 2 : Formulaire de livraison hydraté par SLM
-│   └── App.jsx                  # Routing React & Layout global
+│   │   ├── ModeSwitcher.jsx     # Toggle 🔒 Local / ⚡ Hybrid / ✨ Vision
+│   │   ├── IntelligenceBanner.jsx # Architecture status banner
+│   │   ├── LiquidStore/         # Demo 1: Polymorphic product page + Nudge + Debug dock
+│   │   └── CheckoutForm/        # Demo 2: Zero-friction shipping checkout form
+│   └── App.jsx                  # React Router & global layout
 ```
 
 ---
 
-## Optimisations clés de la codebase
+## Key Engineering Highlights
 
-1. **Bundle initial ultra-léger (~200 kB) :** `@mlc-ai/web-llm` n'est pas chargé au démarrage. Il est importé dynamiquement via `await import('@mlc-ai/web-llm')` uniquement lorsque l'utilisateur déclenche le modèle local.
-2. **Scoring haute performance sans saccade :** Le suivi de curseur et le dwell time utilisent des `useRef` avec un ticker échantillonné à 400ms, évitant tout re-render intempestif.
-3. **Le pattern "Sommelier" (Assentiment explicite) :** L'UI ne se réorganise pas violemment sous les yeux de l'internaute. L'IA diagnostique l'intention et propose une transition douce via un toast interactif.
-
----
-
-## Pour aller plus loin
-
-- Consultez [`llms.txt`](llms.txt) pour une vue synthétique exploitable par vos outils IA.
-- Consultez [`AGENTS.md`](AGENTS.md) pour les règles de contribution, le cycle de vie WebLLM et les pistes d'extension (WebMCP `navigator.modelContext`, parsing de PDF, etc.).
+1. **Ultra-lightweight initial bundle (~210 kB):** `@mlc-ai/web-llm` is never loaded up-front. It is loaded on-demand via `await import('@mlc-ai/web-llm')` only when the user requests local AI processing.
+2. **Jank-free, high-performance telemetry:** Cursor tracking and dwell-time calculations use mutable `useRef` accumulators sampled by a 400ms ticker, preventing gratuitous React render thrashing.
+3. **The "Sommelier" UX Pattern (Explicit Assent):** The UI never morphs abruptly under the user's gaze (*Uncanny Valley*). The AI diagnoses intent behind the scenes and surfaces a discrete contextual toast, allowing the user to validate the transition.
+4. **Zero-knowledge data privacy:** Customer information pasted into the checkout form (names, physical addresses, direct phone numbers) is parsed entirely inside client VRAM via WebGPU and never touches any server.
 
 ---
 
-*🍁 Fièrement développé depuis la Beauce (Québec) par Vibrisse Studio Inc.*
+## Further Reading & Resources
+
+- Read the full technical article: [Chatbots are lazy design (Vibrisse Studio)](https://www.vibrisse-studio.dev/articles/chatbots-are-lazy-design)
+- Consult [`llms.txt`](llms.txt) for an LLM-digestible architectural summary.
+- Consult [`AGENTS.md`](AGENTS.md) for contribution rules, WebLLM lifecycle patterns, and extension points (WebMCP `navigator.modelContext`, PDF ingestion, etc.).
+
+---
+
+*🍁 Proudly engineered from the Beauce region (Quebec) by [Vibrisse Studio Inc.](https://www.vibrisse-studio.dev)*

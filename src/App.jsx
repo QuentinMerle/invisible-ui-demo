@@ -36,7 +36,7 @@ export default function App() {
         <footer className="mt-24 border-t border-zinc-200/80 py-8 text-center text-xs text-zinc-400 font-mono">
           PoC · Invisible UI Demo ·{' '}
           <a
-            href="https://vibrisse-studio.dev"
+            href="https://www.vibrisse-studio.dev"
             target="_blank"
             rel="noreferrer"
             className="text-zinc-600 underline underline-offset-4 hover:text-zinc-900 transition-colors"
