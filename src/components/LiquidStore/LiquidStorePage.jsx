@@ -81,32 +81,30 @@ export default function LiquidStorePage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12">
-      {/* Panel de debug visible en dev */}
-      {import.meta.env.DEV && (
-        <IntentDebugPanel
-          intent={intent}
-          scores={scores}
-          activeProfileInView={activeProfileInView}
-          hoveredProfile={hoveredProfile}
-          isLocked={isLocked}
-          elapsedSeconds={elapsedSeconds}
-          totalWindowSeconds={totalWindowSeconds}
-          requireAssent={requireAssent}
-          onToggleRequireAssent={() => setRequireAssent(!requireAssent)}
-          onForceIntent={forceIntent}
-          onSimulateProfile={simulateProfile}
-          onReset={resetScores}
-          engineStatus={engineStatus}
-          engineProgress={engineProgress}
-          engineProgressText={engineProgressText}
-          engineModelId={engineModelId}
-          onLoadEngine={loadEngine}
-          onTriggerWebLLM={triggerWebLLMArbitration}
-          arbitrationSource={arbitrationSource}
-          arbitrationLatency={arbitrationLatency}
-          isArbitrating={isArbitrating}
-        />
-      )}
+      {/* Panel de debug flottant (bas à droite) pour observer les scores en temps réel */}
+      <IntentDebugPanel
+        intent={intent}
+        scores={scores}
+        activeProfileInView={activeProfileInView}
+        hoveredProfile={hoveredProfile}
+        isLocked={isLocked}
+        elapsedSeconds={elapsedSeconds}
+        totalWindowSeconds={totalWindowSeconds}
+        requireAssent={requireAssent}
+        onToggleRequireAssent={() => setRequireAssent(!requireAssent)}
+        onForceIntent={forceIntent}
+        onSimulateProfile={simulateProfile}
+        onReset={resetScores}
+        engineStatus={engineStatus}
+        engineProgress={engineProgress}
+        engineProgressText={engineProgressText}
+        engineModelId={engineModelId}
+        onLoadEngine={loadEngine}
+        onTriggerWebLLM={triggerWebLLMArbitration}
+        arbitrationSource={arbitrationSource}
+        arbitrationLatency={arbitrationLatency}
+        isArbitrating={isArbitrating}
+      />
 
       {/* Toast d'assentiment explicite : demande l'accord avant de muter */}
       <ExplicitAssentNudge
